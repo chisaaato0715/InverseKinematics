@@ -2,24 +2,34 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	//string filename = "../../../SharedData/Motion/aachan,bvh";
-	
-	string filename = "aachan.bvh";
-	bvh.load(filename);
-	bvh.play();
+
+	joints[0].set(200, 200, 0);
+	joints[1].set(400, 400, 0);
+	joints[2].set(600, 200, 0);
+	joints[3].set(800, 400, 0);
+	target.set(1000, 300);
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	bvh.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
 	ofBackground(0);
-	cam.begin();
-	bvh.draw();
-	cam.end();
+
+	ofSetColor(255);
+	glBegin(GL_LINE_STRIP);
+	for (int i = 0; i < 4; i++) {
+		glVertex3f(joints[i].x, joints[i].y, joints[i].z);
+	}
+	glEnd();
+
+	for (int i = 0; i < 4; i++) {
+		ofDrawSphere(joints[i], 20);
+	}
+	ofDrawSphere(target, 20);
 }
 
 //--------------------------------------------------------------
@@ -39,7 +49,7 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+	target.set(x, y);
 }
 
 //--------------------------------------------------------------

@@ -22,7 +22,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		ofxBvh bvh;
 		ofEasyCam cam;
+
+		ofVec3f joints[4];
+		ofVec3f target;
 		
 };
