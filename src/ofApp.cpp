@@ -2,17 +2,24 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+	//string filename = "../../../SharedData/Motion/aachan,bvh";
+	
+	string filename = "aachan.bvh";
+	bvh.load(filename);
+	bvh.play();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+	bvh.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+	ofBackground(0);
+	cam.begin();
+	bvh.draw();
+	cam.end();
 }
 
 //--------------------------------------------------------------
