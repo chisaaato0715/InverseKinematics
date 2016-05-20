@@ -26,5 +26,6 @@ class ofApp : public ofBaseApp{
 
 		ofVec3f joints[4];
 		ofVec3f target;
+		ofVec3f v3;
 		
 };
