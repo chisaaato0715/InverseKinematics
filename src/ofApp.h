@@ -26,6 +26,6 @@ class ofApp : public ofBaseApp{
 
 		ofVec3f joints[4];
 		ofVec3f target;
-		ofVec3f v3;
-		
+		void transformQuaternionToRotMat(ofMatrix4x4 & m, ofQuaternion q);
+		ofVec3f toEulerXYZ(const ofMatrix4x4 &m);
 };
