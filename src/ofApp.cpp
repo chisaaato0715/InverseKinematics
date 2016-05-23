@@ -43,7 +43,7 @@ void ofApp::draw(){
 	glEnd();
 
 	for (int i = 0; i < 4; i++) {
-		ofDrawSphere(joints[i], 20);
+		ofDrawCircle(joints[i], 20);
 	}
 
 }
