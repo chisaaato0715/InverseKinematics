@@ -22,10 +22,10 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		ofEasyCam cam;
+		ofCamera cam;
+		ofxBvh bvh;
 
 		ofVec3f joints[4];
-		ofVec3f target;
-		void transformQuaternionToRotMat(ofMatrix4x4 & m, ofQuaternion q);
-		ofVec3f toEulerXYZ(const ofMatrix4x4 &m);
+		ofVec3f target1 ;
+
 };
