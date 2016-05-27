@@ -23,9 +23,14 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		ofCamera cam;
+		ofEasyCam easycam;
 		ofxBvh bvh;
 
 		ofVec3f joints[4];
-		ofVec3f target1 ;
+		ofVec3f target, target1;
+		ofVec3f IkJointsPosition[27];
+		ofQuaternion IkJointsRotate[27];
+
+		int x = 0, y = 0, z = 0;
 
 };
