@@ -22,8 +22,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		ofCamera cam;
-		ofEasyCam easycam;
+
+		ofEasyCam cam;
 		ofxBvh bvh;
 
 		ofVec3f joints[4];
@@ -32,5 +32,6 @@ class ofApp : public ofBaseApp{
 		ofQuaternion IkJointsRotate[27];
 
 		int x = 0, y = 0, z = 0;
+		int eff;
 
 };

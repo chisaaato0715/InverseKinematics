@@ -3,34 +3,23 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-	//cam.setPosition(0, 0, 400);
-	//cam.lookAt(ofVec3f(0, 0, 0));
+	//eff = 17;
 
-	bvh.load("./kashiyuka.bvh");
-	bvh.play();
+	bvh.load("./aachan.bvh");
 
-	cout << bvh.getJoint(18) << endl;
+	//bvh.play();
 
-	//bvh.getTpose();
+	////IKåvéZópÇ…èÓïÒÇî≤Ç´èoÇ∑
+	//for (int i = 0; i < bvh.getNumJoints(); i++)
+	//{
+	//	IkJointsPosition[i] = bvh.getJoint(i)->getPosition(); 
+	//}
 
-	//IKåvéZópÇ…èÓïÒÇî≤Ç´èoÇ∑
-	for (int i = 0; i < bvh.getNumJoints(); i++)
-	{
-		IkJointsPosition[i] = bvh.getJoint(i)->getPosition();
-	}
+	//for (int i = 0; i < bvh.getNumJoints()-1; i++)
+	//{
+	//	IkJointsRotate[i] = bvh.getJoint(i+1)->getRotate();
+	//}
 
-	for (int i = 0; i < bvh.getNumJoints()-1; i++)
-	{
-		IkJointsRotate[i] = bvh.getJoint(i+1)->getRotate();
-	}
-
-
-    /*
-	joints[0].set(200, 200, 0);
-	joints[1].set(400, 400, 0);
-	joints[2].set(600, 200, 0);
-	joints[3].set(800, 400, 0);
-	target.set(1000, 2300, 0);*/
 
 }
 
@@ -39,48 +28,62 @@ void ofApp::update(){
 
 	target.set(x, y, z);
 
-
-	//ññí[Ç©ÇÁÇPÇ¬ñ⁄ÇÃä÷êﬂ
-	ofVec3f VecTarget = (target - IkJointsPosition[16]).getNormalized();
-	ofVec3f VecEffector = (IkJointsPosition[17] - IkJointsPosition[16]).getNormalized();
-
-	ofQuaternion q;
-	q.makeRotate(VecEffector, VecTarget);
-
-	ofMatrix4x4 m;
-	m.setRotate(q);
-	IkJointsPosition[17] = (IkJointsPosition[17] - IkJointsPosition[16]) * m + IkJointsPosition[16];
+	bvh.updateIK(target);
 
 
-	//ññí[Ç©ÇÁÇQÇ¬ñ⁄ÇÃä÷êﬂ
-	ofVec3f VecTarget2 = (target - IkJointsPosition[15]).getNormalized();
-	ofVec3f VecEffector2 = (IkJointsPosition[17] - IkJointsPosition[15]).getNormalized();
+	////ññí[Ç©ÇÁÇPÇ¬ñ⁄ÇÃä÷êﬂ
+	//ofVec3f VecTarget = (target - IkJointsPosition[eff-1]).getNormalized();
+	//ofVec3f VecEffector = (IkJointsPosition[eff] - IkJointsPosition[eff-1]).getNormalized();
 
-	ofQuaternion q2;
-	q2.makeRotate(VecEffector2, VecTarget2);
+	//ofQuaternion q;
+	//q.makeRotate(VecEffector, VecTarget);
 
-	ofMatrix4x4 m2;
-	m2.setRotate(q2);
-
-	IkJointsPosition[16] = (IkJointsPosition[16] - IkJointsPosition[15]) * m2 + IkJointsPosition[15];
-	IkJointsPosition[17] = (IkJointsPosition[17] - IkJointsPosition[15]) * m2 + IkJointsPosition[15];
-
-	//ññí[Ç©ÇÁÇRÇ¬ñ⁄ÇÃä÷êﬂ
-	ofVec3f VecTarget3 = (target - IkJointsPosition[14]).getNormalized();
-	ofVec3f VecEffector3 = (IkJointsPosition[17] - IkJointsPosition[14]).getNormalized();
-
-	ofQuaternion q3;
-	q3.makeRotate(VecEffector3, VecTarget3);
-
-	ofMatrix4x4 m3;
-	m3.setRotate(q3);
-
-	IkJointsPosition[15] = (IkJointsPosition[15] - IkJointsPosition[14]) * m3 + IkJointsPosition[14];
-	IkJointsPosition[16] = (IkJointsPosition[16] - IkJointsPosition[14]) * m3 + IkJointsPosition[14];
-	IkJointsPosition[17] = (IkJointsPosition[17] - IkJointsPosition[14]) * m3 + IkJointsPosition[14];
+	//ofMatrix4x4 m;
+	//m.setRotate(q);
+	//IkJointsPosition[eff] = (IkJointsPosition[eff] - IkJointsPosition[eff-1]) * m + IkJointsPosition[eff-1];
 
 
+	////ññí[Ç©ÇÁÇQÇ¬ñ⁄ÇÃä÷êﬂ
+	//ofVec3f VecTarget2 = (target - IkJointsPosition[eff-2]).getNormalized();
+	//ofVec3f VecEffector2 = (IkJointsPosition[eff] - IkJointsPosition[eff-2]).getNormalized();
 
+	//ofQuaternion q2;
+	//q2.makeRotate(VecEffector2, VecTarget2);
+
+	//ofMatrix4x4 m2;
+	//m2.setRotate(q2);
+
+	//IkJointsPosition[eff-1] = (IkJointsPosition[eff-1] - IkJointsPosition[eff-2]) * m2 + IkJointsPosition[eff-2];
+	//IkJointsPosition[eff] = (IkJointsPosition[eff] - IkJointsPosition[eff-2]) * m2 + IkJointsPosition[eff-2];
+
+	////ññí[Ç©ÇÁÇRÇ¬ñ⁄ÇÃä÷êﬂ
+	//ofVec3f VecTarget3 = (target - IkJointsPosition[eff-3]).getNormalized();
+	//ofVec3f VecEffector3 = (IkJointsPosition[eff] - IkJointsPosition[eff-3]).getNormalized();
+
+	//ofQuaternion q3;
+	//q3.makeRotate(VecEffector3, VecTarget3);
+
+	//ofMatrix4x4 m3;
+	//m3.setRotate(q3);
+
+	//IkJointsPosition[eff-2] = (IkJointsPosition[eff-2] - IkJointsPosition[eff-3]) * m3 + IkJointsPosition[eff-3];
+	//IkJointsPosition[eff-1] = (IkJointsPosition[eff-1] - IkJointsPosition[eff-3]) * m3 + IkJointsPosition[eff-3];
+	//IkJointsPosition[eff] = (IkJointsPosition[eff] - IkJointsPosition[eff-3]) * m3 + IkJointsPosition[eff-3];
+
+	////ññí[Ç©ÇÁÇSÇ¬ñ⁄ÇÃä÷êﬂ
+	//ofVec3f VecTarget4 = (target - IkJointsPosition[eff - 4]).getNormalized();
+	//ofVec3f VecEffector4 = (IkJointsPosition[eff] - IkJointsPosition[eff - 4]).getNormalized();
+
+	//ofQuaternion q4;
+	//q4.makeRotate(VecEffector4, VecTarget4);
+
+	//ofMatrix4x4 m4;
+	//m4.setRotate(q4);
+
+	//IkJointsPosition[eff - 3] = (IkJointsPosition[eff - 3] - IkJointsPosition[eff - 4]) * m4 + IkJointsPosition[eff - 4];
+	//IkJointsPosition[eff - 2] = (IkJointsPosition[eff - 2] - IkJointsPosition[eff - 4]) * m4 + IkJointsPosition[eff - 4];
+	//IkJointsPosition[eff - 1] = (IkJointsPosition[eff - 1] - IkJointsPosition[eff - 4]) * m4 + IkJointsPosition[eff - 4];
+	//IkJointsPosition[eff] = (IkJointsPosition[eff] - IkJointsPosition[eff - 4]) * m4 + IkJointsPosition[eff - 4];
 
 
 	//bvh.update();
@@ -92,39 +95,23 @@ void ofApp::draw(){
 
 	ofBackground(0);
 
-	//cam.begin();
-	easycam.begin();
+	cam.begin();
 	
 
+	//for (int i = 0; i < bvh.getNumJoints(); i++)
+	//{
+	//	ofSetColor(ofColor::white);
+	//	ofDrawSphere(IkJointsPosition[i], 2);
+	//}
 
-	for (int i = 0; i < bvh.getNumJoints(); i++)
-	{
-		ofSetColor(ofColor::blue);
-		ofDrawSphere(IkJointsPosition[i]+(10,10,10), 2);
-	}
 
 	bvh.draw();
 
 	ofSetColor(255, 0, 0);
 	ofDrawSphere(target, 8);
 
-	
-	//cam.end();
-	easycam.end();
+	cam.end();
 
-
-
-//	ofSetColor(255);
-//	glBegin(GL_LINE_STRIP);
-//	for (int i = 0; i < 4; i++) {
-//		glVertex3f(joints[i].x, joints[i].y, joints[i].z);
-//	}
-//	glEnd();
-//
-//	for (int i = 0; i < 4; i++) {
-//		ofDrawCircle(joints[i], 20);
-//	}
-//
 }
 
 //--------------------------------------------------------------
@@ -146,6 +133,18 @@ void ofApp::keyPressed(int key){
 		y += -10;
 	}
 
+	if (key == 'q') {
+		eff = 17;
+	}
+	if (key == 'w') {
+		eff = 12;
+	}
+	if (key == 'e') {
+		eff = 27;
+	}
+	if (key == 'r') {
+		eff = 22;
+	}
 
 }
 
@@ -161,50 +160,6 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
-
-	////ññí[Ç©ÇÁÇPÇ¬ñ⁄ÇÃä÷êﬂ
-	//ofVec3f VecTarget = (target - joints[2]).getNormalized();
-	//ofVec3f VecEffector = (joints[3] - joints[2]).getNormalized();
-
-	//ofQuaternion q;
-	//q.makeRotate(VecEffector, VecTarget);
-
-	//ofMatrix4x4 m;
-	//m.setRotate(q);
-	//joints[3] = (joints[3] - joints[2]) * m + joints[2];
-
-
-	////ññí[Ç©ÇÁÇQÇ¬ñ⁄ÇÃä÷êﬂ
-	//ofVec3f VecTarget2 = (target - joints[1]).getNormalized();
-	//ofVec3f VecEffector2 = (joints[3] - joints[1]).getNormalized();
-
-	//ofQuaternion q2;
-	//q2.makeRotate(VecEffector2, VecTarget2);
-
-	//ofMatrix4x4 m2;
-	//m2.setRotate(q2);
-
-	//joints[2] = (joints[2] - joints[1]) * m2 + joints[1];
-	//joints[3] = (joints[3] - joints[1]) * m2 + joints[1];
-
-
-	////ññí[Ç©ÇÁÇRÇ¬ñ⁄ÇÃä÷êﬂ
-	//ofVec3f VecTarget3 = (target - joints[0]).getNormalized();
-	//ofVec3f VecEffector3 = (joints[3] - joints[0]).getNormalized();
-
-	//ofQuaternion q3;
-	//q3.makeRotate(VecEffector3, VecTarget3);
-
-	//ofMatrix4x4 m3;
-	//m3.setRotate(q3);
-
-	//joints[1] = (joints[1] - joints[0]) * m3 + joints[0];
-	//joints[2] = (joints[2] - joints[0]) * m3 + joints[0];
-	//joints[3] = (joints[3] - joints[0]) * m3 + joints[0];
-
-
-
 
 }
 
