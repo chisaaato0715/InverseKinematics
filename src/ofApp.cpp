@@ -28,7 +28,7 @@ void ofApp::update(){
 
 	target.set(x, y, z);
 
-	bvh.updateIK(target);
+	bvh.updateIK(target,bvh.joints[0]);
 
 
 	////––’[‚©‚ç‚P‚Â–Ú‚ÌŠÖß
