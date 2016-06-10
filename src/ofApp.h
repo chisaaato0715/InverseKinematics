@@ -26,12 +26,9 @@ class ofApp : public ofBaseApp{
 		ofEasyCam cam;
 		ofxBvh bvh;
 
-		ofVec3f joints[4];
-		ofVec3f target, target1;
-		ofVec3f IkJointsPosition[27];
-		ofQuaternion IkJointsRotate[27];
-
+		ofVec3f target;
 		int x = 0, y = 0, z = 0;
-		int eff;
+
+		int endjoint;
 
 };
