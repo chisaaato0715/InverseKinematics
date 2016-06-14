@@ -1,10 +1,9 @@
 #include "ofApp.h"
 
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-	endjoint = 12;
-	//bvh.countParent(bvh.joints[12]);
 
 	bvh.load("./aachan.bvh");
 
@@ -16,9 +15,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 
-	target.set(x, y, z);
-
-	bvh.updateIK(target,bvh.joints[endjoint]);
+	bvh.updateIK(bvh.joints[bvh.selectjoint]);
 
 	//bvh.update();
 
@@ -30,60 +27,71 @@ void ofApp::draw(){
 	ofBackground(0);
 
 	cam.begin();
-	//cam.disableMouseInput()
-	//cam.enableMouseInput();
 
 	bvh.draw();
 
+
 	ofSetColor(255, 0, 0);
-	ofDrawSphere(target, 8);
+	ofDrawSphere(bvh.target, 8);
+
 
 	cam.end();
+
+	int n = bvh.getNumJoints();
+	float nearestDistance = 0;
+	ofVec2f mouse(mouseX, mouseY);
+	for (int i = 0; i < n; i++) {
+		ofVec3f cur = cam.worldToScreen(bvh.joints[i]->getPosition());
+		float distance = cur.distance(mouse);
+		if (i == 0 || distance < nearestDistance) {
+			nearestDistance = distance;
+			nearestJoint = cur;
+			nearestIndex = i;
+		}
+	}
+	ofSetColor(ofColor::gray);
+	ofDrawLine(nearestJoint, mouse);
+
+	ofNoFill();
+	ofSetColor(ofColor::yellow);
+	ofSetLineWidth(2);
+	ofDrawCircle(nearestJoint, 4);
+	ofSetLineWidth(1);
+
+	ofVec2f offset(10, -10);
+	ofDrawBitmapStringHighlight(ofToString(nearestIndex), mouse + offset);
+
 
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
-	if (key == OF_KEY_LEFT) {
-		x += -10;
-	}
-
-	if (key == OF_KEY_RIGHT) {
-		x += 10;
-	}
-
-	if (key == OF_KEY_UP) {
-		y += 10;
-	}
-
-	if (key == OF_KEY_DOWN) {
-		y += -10;
-	}
-
 	if (key == 'a') {
-		endjoint = 12;
-		x = bvh.joints[12]->getPosition().x;
-		y = bvh.joints[12]->getPosition().y;
-		z = bvh.joints[12]->getPosition().z;
+		bvh.selectjoint = 12;
 	}
 	if (key == 'd') { 
-		endjoint = 17;
-		x = bvh.joints[17]->getPosition().x;
-		y = bvh.joints[17]->getPosition().y;
-		z = bvh.joints[17]->getPosition().z;	
+		bvh.selectjoint = 17;
 	}
 	if (key == 'z') { 
-		endjoint = 22; 
-		x = bvh.joints[22]->getPosition().x;
-		y = bvh.joints[22]->getPosition().y;
-		z = bvh.joints[22]->getPosition().z;
+		bvh.selectjoint = 22; 
 	}
-	if (key == 'c') { 
-		endjoint = 27; 
-		x = bvh.joints[27]->getPosition().x;
-		y = bvh.joints[27]->getPosition().y;
-		z = bvh.joints[27]->getPosition().z;
+	if (key == 'x') { 
+		bvh.selectjoint = 27; 
+	}
+
+	if (key == 'c') {
+		cam.disableMouseInput();
+	}
+
+	if (key == 'v') {
+		cam.enableMouseInput();
+	}
+
+	if (key == 'r') {
+		
+		cam.reset();
+
 	}
 
 }
@@ -101,10 +109,23 @@ void ofApp::mouseMoved(int x, int y ){
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
 
+	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0);
+	bvh.target = cam.worldToScreen(ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0));
+	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0, - (y - ofGetHeight() / 2.0), 0)* cam.getGlobalTransformMatrix().getInverse();
+	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+
+	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0,- ( y - ofGetHeight() / 2.0), 0);
+	bvh.target = cam.worldToScreen(ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0));
+	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0);
+
+
+	bvh.selectjoint = nearestIndex;
+
+
 
 }
 

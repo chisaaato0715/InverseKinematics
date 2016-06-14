@@ -25,10 +25,7 @@ class ofApp : public ofBaseApp{
 
 		ofEasyCam cam;
 		ofxBvh bvh;
-
-		ofVec3f target;
-		int x = 0, y = 0, z = 0;
-
-		int endjoint;
+		int nearestIndex = 12;
+		ofVec2f nearestJoint;
 
 };
