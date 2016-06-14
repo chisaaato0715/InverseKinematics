@@ -25,7 +25,6 @@ class ofApp : public ofBaseApp{
 
 		ofEasyCam cam;
 		ofxBvh bvh;
-		int nearestIndex = 12;
 		ofVec2f nearestJoint;
 
 };

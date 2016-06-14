@@ -37,16 +37,16 @@ void ofApp::draw(){
 
 	cam.end();
 
-	int n = bvh.getNumJoints();
 	float nearestDistance = 0;
 	ofVec2f mouse(mouseX, mouseY);
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < bvh.getNumJoints(); i++) {
 		ofVec3f cur = cam.worldToScreen(bvh.joints[i]->getPosition());
 		float distance = cur.distance(mouse);
-		if (i == 0 || distance < nearestDistance) {
+		if (i == 0 || distance < nearestDistance) 
+		{
 			nearestDistance = distance;
 			nearestJoint = cur;
-			nearestIndex = i;
+			bvh.nearestIndex = i;
 		}
 	}
 	ofSetColor(ofColor::gray);
@@ -59,7 +59,7 @@ void ofApp::draw(){
 	ofSetLineWidth(1);
 
 	ofVec2f offset(10, -10);
-	ofDrawBitmapStringHighlight(ofToString(nearestIndex), mouse + offset);
+	ofDrawBitmapStringHighlight(ofToString(bvh.nearestIndex), mouse + offset);
 
 
 }
@@ -110,20 +110,20 @@ void ofApp::mouseMoved(int x, int y ){
 void ofApp::mouseDragged(int x, int y, int button){
 
 	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0);
-	bvh.target = cam.worldToScreen(ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0));
+	//bvh.target = cam.worldToScreen(ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0));
 	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0, - (y - ofGetHeight() / 2.0), 0)* cam.getGlobalTransformMatrix().getInverse();
-	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0);
+	bvh.target = ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
 
 	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0,- ( y - ofGetHeight() / 2.0), 0);
-	bvh.target = cam.worldToScreen(ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0));
-	//bvh.target = ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0);
+	//bvh.target = cam.worldToScreen(ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0));
+	bvh.target = ofVec3f(x - ofGetWidth() / 2.0, -(y - ofGetHeight() / 2.0), 0);
 
 
-	bvh.selectjoint = nearestIndex;
+	bvh.selectjoint = bvh.nearestIndex;
 
 
 
