@@ -37,4 +37,4 @@
 
 # 使用しているファイル
  - Bvhファイル　
-[purfume globalsite](http://www.perfume-global.com/)
+[perfume globalsite](http://www.perfume-global.com/)
